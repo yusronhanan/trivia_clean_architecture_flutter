@@ -1,9 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/domain/entities/number_trivia.dart';
 
-import '../../../fixtures/fixture_reader.dart';
+import '../../../../fixtures/fixture_reader.dart';
 
 main() {
   final tNumberTriviaModel = NumberTriviaModel(number: 1, text: 'Test Text');

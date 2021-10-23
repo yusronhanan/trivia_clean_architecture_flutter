@@ -1,6 +1,7 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:equatable/equatable.dart';
 
-// ignore: must_be_immutable
 abstract class Failures extends Equatable {
   List properties;
 
@@ -9,3 +10,8 @@ abstract class Failures extends Equatable {
   @override
   List<Object> get props => [properties];
 }
+
+//General Failures
+class ServerException extends Failures {}
+
+class CacheException extends Failures {}
