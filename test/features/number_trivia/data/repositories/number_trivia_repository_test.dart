@@ -1,10 +1,12 @@
+// ignore_for_file: unused_local_variable, prefer_const_declarations, prefer_const_constructors
+
 import 'package:dartz/dartz.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:trivia_clean_architecture/core/error/exceptions.dart';
 import 'package:trivia_clean_architecture/core/error/failures.dart';
-import 'package:trivia_clean_architecture/core/platform/network_info.dart';
+import 'package:trivia_clean_architecture/core/network/network_info.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/data/models/number_trivia_model.dart';
