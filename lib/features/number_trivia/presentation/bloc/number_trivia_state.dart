@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors_in_immutables
-
 part of 'number_trivia_bloc.dart';
 
 abstract class NumberTriviaState extends Equatable {
@@ -9,25 +7,22 @@ abstract class NumberTriviaState extends Equatable {
   List<Object> get props => [];
 }
 
-// class NumberTriviaInitial extends NumberTriviaState {}
-class EmptyNumberTrivia extends NumberTriviaState {}
+class NumberTriviaInitial extends NumberTriviaState {}
 
-/// Hold the NumberTrivia Entity
-class LoadedNumberTrivia extends NumberTriviaState {
+class NumberTriviaLoading extends NumberTriviaState {}
+
+class NumberTriviaLoaded extends NumberTriviaState {
   final NumberTrivia trivia;
 
-  LoadedNumberTrivia({required this.trivia});
-
+  const NumberTriviaLoaded(this.trivia);
   @override
   List<Object> get props => [trivia];
 }
 
-/// Hold the NumberTrivia Entity
-class ErrorNumberTrivia extends NumberTriviaState {
+class NumberTriviaError extends NumberTriviaState {
   final String message;
 
-  ErrorNumberTrivia({required this.message});
-
+  const NumberTriviaError({required this.message});
   @override
   List<Object> get props => [message];
 }

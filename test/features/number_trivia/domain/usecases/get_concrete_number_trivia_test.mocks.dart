@@ -2,6 +2,8 @@
 // in trivia_clean_architecture/test/features/number_trivia/domain/usecases/get_concrete_number_trivia_test.dart.
 // Do not manually edit this file.
 
+// ignore_for_file: unnecessary_overrides
+
 import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;

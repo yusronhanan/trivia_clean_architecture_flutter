@@ -2,6 +2,8 @@
 // in trivia_clean_architecture/test/core/network/network_info_test.dart.
 // Do not manually edit this file.
 
+// ignore_for_file: unnecessary_overrides
+
 import 'dart:async' as _i3;
 
 import 'package:data_connection_checker/data_connection_checker.dart' as _i2;
