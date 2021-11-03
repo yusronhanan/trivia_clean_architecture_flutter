@@ -14,7 +14,8 @@ void main() {
   late MockDataConnectionChecker mockDataConnectionChecker;
   setUp(() {
     mockDataConnectionChecker = MockDataConnectionChecker();
-    networkInfoImpl = NetworkInfoImpl(mockDataConnectionChecker);
+    networkInfoImpl =
+        NetworkInfoImpl(connectionChecker: mockDataConnectionChecker);
   });
 
   group('isConnected', () {
