@@ -1,8 +1,11 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:trivia_clean_architecture/core/error/failures.dart';
 import 'package:trivia_clean_architecture/core/presentation/util/input_converter.dart';
+import 'package:trivia_clean_architecture/core/usecases/usecase.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/domain/usecases/get_random_number_trivia.dart';
@@ -29,16 +32,40 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
         final inputEither =
             inputConverter.stringToUnsignedInteger(event.numberString);
 
-        inputEither.fold((failure) async {
+        inputEither.fold((failure) {
           emit(const NumberTriviaError(message: INVALID_INPUT_FAILURE_MESSAGE));
-        }, (integer) {
-          getConcreteNumberTrivia(
+        }, (integer) async {
+          emit(NumberTriviaLoading());
+          final failureOrTrivia = await getConcreteNumberTrivia(
               ParamsGetConcreteNumberTrivia(number: integer));
+          _eitherLoadedOrErrorState(failureOrTrivia, emit);
         });
+      } else if (event is GetTriviaForRandomNumber) {
+        emit(NumberTriviaLoading());
+        final failureOrTrivia = await getRandomNumberTrivia(NoParams());
+        _eitherLoadedOrErrorState(failureOrTrivia, emit);
       }
     });
   }
 
+  void _eitherLoadedOrErrorState(Either<Failures, NumberTrivia> failureOrTrivia,
+      Emitter<NumberTriviaState> emit) {
+    failureOrTrivia.fold(
+        (failure) =>
+            emit(NumberTriviaError(message: _mapFailureToMessage(failure))),
+        (trivia) => emit(NumberTriviaLoaded(trivia: trivia)));
+  }
+
+  String _mapFailureToMessage(Failures failure) {
+    switch (failure.runtimeType) {
+      case ServerFailure:
+        return SERVER_FAILURE_MESSAGE;
+      case CacheFailure:
+        return CACHE_FAILURE_MESSAGE;
+      default:
+        return 'Unexpected Error';
+    }
+  }
   /* 
   //Template Override to use async* and yield
   @override
