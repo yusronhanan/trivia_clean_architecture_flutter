@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:trivia_clean_architecture/core/error/failures.dart';
 import 'package:trivia_clean_architecture/core/presentation/util/input_converter.dart';
-import 'package:trivia_clean_architecture/core/usecases/usecase.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/domain/usecases/get_random_number_trivia.dart';
@@ -27,9 +26,10 @@ void main() {
     mockGetRandomNumberTrivia = MockGetRandomNumberTrivia();
 
     bloc = NumberTriviaBloc(
-        inputConverter: mockInputConverter,
-        getConcreteNumberTrivia: mockGetConcreteNumberTrivia,
-        getRandomNumberTrivia: mockGetRandomNumberTrivia);
+      inputConverter: mockInputConverter,
+      getConcreteNumberTrivia: mockGetConcreteNumberTrivia,
+      getRandomNumberTrivia: mockGetRandomNumberTrivia,
+    );
   });
 
   test(
@@ -88,7 +88,7 @@ void main() {
         when(mockInputConverter.stringToUnsignedInteger(any))
             .thenReturn(Left(InvalidInputFailure()));
         final expected = [
-          const NumberTriviaError(message: INVALID_INPUT_FAILURE_MESSAGE),
+          const NumberTriviaError(INVALID_INPUT_FAILURE_MESSAGE),
         ];
         expectLater(
             bloc.stream,
@@ -135,7 +135,7 @@ void main() {
         // assert later
         final expected = [
           NumberTriviaLoading(),
-          NumberTriviaLoaded(trivia: tNumberTrivia),
+          NumberTriviaLoaded(tNumberTrivia),
         ];
         expect(
             bloc.state,
@@ -157,7 +157,7 @@ void main() {
         // assert later
         final expected = [
           NumberTriviaLoading(),
-          const NumberTriviaError(message: SERVER_FAILURE_MESSAGE)
+          const NumberTriviaError(SERVER_FAILURE_MESSAGE)
         ];
         expect(
             bloc.state,
@@ -180,7 +180,7 @@ void main() {
         // assert later
         final expected = [
           NumberTriviaLoading(),
-          const NumberTriviaError(message: CACHE_FAILURE_MESSAGE)
+          const NumberTriviaError(CACHE_FAILURE_MESSAGE)
         ];
         expect(
             bloc.state,
@@ -226,7 +226,7 @@ void main() {
         // assert later
         final expected = [
           NumberTriviaLoading(),
-          NumberTriviaLoaded(trivia: tNumberTrivia),
+          NumberTriviaLoaded(tNumberTrivia),
         ];
         expect(
             bloc.state,
@@ -246,7 +246,7 @@ void main() {
         // assert later
         final expected = [
           NumberTriviaLoading(),
-          const NumberTriviaError(message: SERVER_FAILURE_MESSAGE)
+          const NumberTriviaError(SERVER_FAILURE_MESSAGE)
         ];
         expect(
             bloc.state,
@@ -267,7 +267,7 @@ void main() {
         // assert later
         final expected = [
           NumberTriviaLoading(),
-          const NumberTriviaError(message: CACHE_FAILURE_MESSAGE)
+          const NumberTriviaError(CACHE_FAILURE_MESSAGE)
         ];
         expect(
             bloc.state,

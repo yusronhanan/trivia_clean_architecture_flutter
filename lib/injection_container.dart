@@ -23,7 +23,7 @@ Future<void> init() async {
   initCore();
   //! External => instantiate third party
 
-  initExternal();
+  await initExternal();
 }
 
 void initFeatures() {
@@ -34,35 +34,40 @@ void initFeatures() {
   //? register..Singleton() => only called once in the first place, not create new instance every called afterwards. Stream isn't closed, if not lazy, it's register immediately if app started
   //? registerLazySingleton() => called when its necessary
 
-  sl.registerFactory(() => NumberTriviaBloc(
-      inputConverter: sl(),
-      getConcreteNumberTrivia: sl(),
-      getRandomNumberTrivia: sl()));
+  sl.registerFactory<NumberTriviaBloc>(() => NumberTriviaBloc(
+      inputConverter: sl<InputConverter>(),
+      getConcreteNumberTrivia: sl<GetConcreteNumberTrivia>(),
+      getRandomNumberTrivia: sl<GetRandomNumberTrivia>()));
   //Usecases
-  sl.registerLazySingleton(() => GetConcreteNumberTrivia(sl()));
-  sl.registerLazySingleton(() => GetRandomNumberTrivia(sl()));
+  sl.registerLazySingleton(
+      () => GetConcreteNumberTrivia(sl<NumberTriviaRepository>()));
+  sl.registerLazySingleton(
+      () => GetRandomNumberTrivia(sl<NumberTriviaRepository>()));
 
   //Repository
   ///? use NumberTriviaRepository as type (bcs it's contract) and NumberTriviaRepositoryImpl since it's the implementation of contract
   sl.registerLazySingleton<NumberTriviaRepository>(() =>
       NumberTriviaRepositoryImpl(
-          localDataSource: sl(), remoteDataSource: sl(), networkInfo: sl()));
+          localDataSource: sl<NumberTriviaLocalDataSource>(),
+          remoteDataSource: sl<NumberTriviaRemoteDataSource>(),
+          networkInfo: sl<NetworkInfo>()));
 
   //Data
   //?same implementation with Repository, since it has contract that implement in different class
   sl.registerLazySingleton<NumberTriviaRemoteDataSource>(
-      () => NumberTriviaRemoteDataSourceImpl(client: sl()));
-  sl.registerLazySingleton<NumberTriviaLocalDataSource>(
-      () => NumberTriviaLocalDataSourceImpl(sharedPreferences: sl()));
+      () => NumberTriviaRemoteDataSourceImpl(client: sl<http.Client>()));
+  sl.registerLazySingleton<NumberTriviaLocalDataSource>(() =>
+      NumberTriviaLocalDataSourceImpl(
+          sharedPreferences: sl<SharedPreferences>()));
 }
 
 void initCore() {
-  sl.registerLazySingleton(() => InputConverter());
+  sl.registerLazySingleton<InputConverter>(() => InputConverter());
   sl.registerLazySingleton<NetworkInfo>(
-      () => NetworkInfoImpl(connectionChecker: sl()));
+      () => NetworkInfoImpl(connectionChecker: sl<DataConnectionChecker>()));
 }
 
-void initExternal() async {
+Future<void> initExternal() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());

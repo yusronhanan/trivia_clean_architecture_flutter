@@ -7,14 +7,20 @@ abstract class NumberTriviaState extends Equatable {
   List<Object> get props => [];
 }
 
-class NumberTriviaInitial extends NumberTriviaState {}
+class NumberTriviaInitial extends NumberTriviaState {
+  @override
+  List<Object> get props => [];
+}
 
-class NumberTriviaLoading extends NumberTriviaState {}
+class NumberTriviaLoading extends NumberTriviaState {
+  @override
+  List<Object> get props => [];
+}
 
 class NumberTriviaLoaded extends NumberTriviaState {
   final NumberTrivia trivia;
 
-  const NumberTriviaLoaded({required this.trivia});
+  const NumberTriviaLoaded(this.trivia);
   @override
   List<Object> get props => [trivia];
 }
@@ -22,7 +28,7 @@ class NumberTriviaLoaded extends NumberTriviaState {
 class NumberTriviaError extends NumberTriviaState {
   final String message;
 
-  const NumberTriviaError({required this.message});
+  const NumberTriviaError(this.message);
   @override
   List<Object> get props => [message];
 }
