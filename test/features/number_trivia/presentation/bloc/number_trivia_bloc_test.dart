@@ -88,6 +88,7 @@ void main() {
         when(mockInputConverter.stringToUnsignedInteger(any))
             .thenReturn(Left(InvalidInputFailure()));
         final expected = [
+          NumberTriviaLoading(),
           const NumberTriviaError(INVALID_INPUT_FAILURE_MESSAGE),
         ];
         expectLater(

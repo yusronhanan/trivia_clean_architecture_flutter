@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trivia_clean_architecture/features/number_trivia/presentation/bloc/number_trivia_bloc.dart';
@@ -13,7 +11,7 @@ class NumberTriviaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Number Trivia'),
+        title: const Text('Number Trivia'),
       ),
       body: SingleChildScrollView(child: buildBody(context)),
     );
@@ -26,7 +24,7 @@ class NumberTriviaPage extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             BlocConsumer<NumberTriviaBloc, NumberTriviaState>(
@@ -38,11 +36,11 @@ class NumberTriviaPage extends StatelessWidget {
               },
               builder: (context, state) {
                 if (state is NumberTriviaInitial) {
-                  return MessageDisplay(
+                  return const MessageDisplay(
                     message: "Start Searching!",
                   );
                 } else if (state is NumberTriviaLoading) {
-                  return LoadingWidget();
+                  return const LoadingWidget();
                 } else if (state is NumberTriviaLoaded) {
                   return TriviaDisplay(
                     numberTrivia: state.trivia,
@@ -52,10 +50,10 @@ class NumberTriviaPage extends StatelessWidget {
                 }
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            TriviaControls(),
+            const TriviaControls(),
           ],
         ),
       ),
